@@ -4,8 +4,8 @@ info:
   description: API documentation for vol12_server
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
-    description: Local server
+  - url: https://vol12-server-ktkjnwxxva-uc.a.run.app/
+    description: deployed server
 
 paths:
   /users:
