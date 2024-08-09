@@ -8,11 +8,11 @@ import (
 )
 
 type Caffeine struct {
-    ID        int `gorm:"primaryKey"`
+    ID        int `gorm:"primaryKey" autoIncrement:"true"`
     Score     int
     UserID    int
-    CreatedAt time.Time
-    UpdatedAt time.Time
+    CreatedAt time.Time `gorm:"autoCreateTime"`
+    UpdatedAt time.Time `gorm:"autoUpdateTime"`
 }
 
 type CaffeineRepository struct {

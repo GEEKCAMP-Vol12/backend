@@ -8,13 +8,13 @@ import (
 )
 
 type User struct {
-    ID        int    
+    ID        int    `gorm:"primaryKey"`
     Name      string
     Icon      string
     Age       int
     Gender    string 
-    CreatedAt time.Time
-    UpdatedAt time.Time
+    CreatedAt time.Time `gorm:"autoCreateTime"`
+    UpdatedAt time.Time `gorm:"autoUpdateTime"`
 }
 
 type UserRepository struct {
