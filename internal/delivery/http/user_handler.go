@@ -4,10 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gin-gonic/gin"
 	"github.com/taku10101/internal/domain"
 	"github.com/taku10101/internal/usecase"
-
-	"github.com/gin-gonic/gin"
 )
 
 type UserHandler struct {
@@ -33,63 +32,68 @@ func (h *UserHandler) GetUsers(c *gin.Context) {
 }
 
 func (h *UserHandler) GetUserByID(c *gin.Context) {
-    id, err := strconv.Atoi(c.Param("id"))
+    idStr := c.Param("id")
+    id, err := strconv.Atoi(idStr)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
         return
     }
 
-    user, err := h.userUseCase.GetUserByID(strconv.Itoa(id))
+
+    user, err := h.userUseCase.GetUserByID(id)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
     c.JSON(http.StatusOK, user)
 }
-
 func (h *UserHandler) CreateUser(c *gin.Context) {
-    var user domain.CreateUserRequest
-    if err := c.ShouldBindJSON(&user); err != nil {
+    var req domain.CreateUserRequest
+    if err := c.ShouldBindJSON(&req); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
 
-    if err := h.userUseCase.CreateUser(&user); err != nil {
+    if err := h.userUseCase.CreateUser(&req); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
-    c.JSON(http.StatusCreated, user)
+    c.JSON(http.StatusCreated, req)
 }
+
 
 func (h *UserHandler) UpdateUser(c *gin.Context) {
-    id, err := strconv.Atoi(c.Param("id"))
+    idStr := c.Param("id")
+    id, err := strconv.Atoi(idStr)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
         return
     }
 
-    var user domain.UpdateUserRequest
-    if err := c.ShouldBindJSON(&user); err != nil {
+    var req domain.UpdateUserRequest
+    if err := c.ShouldBindJSON(&req); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
 
-    user.ID = strconv.Itoa(id)
-    if err := h.userUseCase.UpdateUser(&user); err != nil {
+    req.ID = strconv.Itoa(id)
+    if err := h.userUseCase.UpdateUser(&req); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
-    c.JSON(http.StatusOK, user)
+    c.JSON(http.StatusOK, req)
+
 }
 
 func (h *UserHandler) DeleteUser(c *gin.Context) {
-    id, err := strconv.Atoi(c.Param("id"))
+    idStr := c.Param("id")
+    id, err := strconv.Atoi(idStr)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
         return
     }
 
-    if err := h.userUseCase.DeleteUser(strconv.Itoa(id)); err != nil {
+    if err := h.userUseCase.DeleteUser(id); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
