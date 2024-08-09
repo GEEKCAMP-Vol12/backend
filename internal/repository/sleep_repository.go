@@ -8,7 +8,7 @@ import (
 )
 
 type Sleep struct {
-    ID        int 
+    ID        int `gorm:"primaryKey"`
     Score     int
     UserID    int
     CreatedAt time.Time
@@ -43,9 +43,9 @@ func (r *SleepRepository) FindByID(sleepID int) (*domain.Sleep, error) {
     return &sleep, nil
 }
 
-func (r *SleepRepository) FindAll() ([]domain.Sleep, error) {
+func (r *SleepRepository) FindAll(userID int) ([]domain.Sleep, error) {
     var sleeps []domain.Sleep
-    if err := r.db.Find(&sleeps).Error; err != nil {
+    if err := r.db.Where("user_id = ?", userID).Find(&sleeps).Error; err != nil {
         return nil, err
     }
     return sleeps, nil

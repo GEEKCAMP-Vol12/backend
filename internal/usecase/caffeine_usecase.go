@@ -2,12 +2,13 @@ package usecase
 
 import "github.com/taku10101/internal/domain"
 
+
 type CaffeineRepository interface {
     Create(caffeine *domain.Caffeine) error
     Update(caffeine *domain.Caffeine) error
     Delete(caffeineID int) error
     FindByID(caffeineID int) (*domain.Caffeine, error)
-    FindAll() ([]domain.Caffeine, error)
+    FindAll(userID int) ([]domain.Caffeine, error)
     GetScore(userID int) (int, error)
 }
 
@@ -35,8 +36,8 @@ func (u *CaffeineUseCase) GetCaffeineByID(caffeineID int) (*domain.Caffeine, err
     return u.caffeineRepository.FindByID(caffeineID)
 }
 
-func (u *CaffeineUseCase) GetAllCaffeines() ([]domain.Caffeine, error) {
-    return u.caffeineRepository.FindAll()
+func (u *CaffeineUseCase) GetCaffeinesByUserID(userID int) ([]domain.Caffeine, error) {
+    return u.caffeineRepository.FindAll(userID)
 }
 
 func (u *CaffeineUseCase) GetCaffeineScore(userID int) (int, error) {

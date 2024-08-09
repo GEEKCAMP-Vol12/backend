@@ -2,12 +2,13 @@ package usecase
 
 import "github.com/taku10101/internal/domain"
 
+
 type SleepRepository interface {
     Create(sleep *domain.Sleep) error
     Update(sleep *domain.Sleep) error
     Delete(sleepID int) error
     FindByID(sleepID int) (*domain.Sleep, error)
-    FindAll() ([]domain.Sleep, error)
+    FindAll(userID int) ([]domain.Sleep, error)
     GetScore(userID int) (int, error)
 }
 
@@ -35,8 +36,8 @@ func (u *SleepUseCase) GetSleepByID(sleepID int) (*domain.Sleep, error) {
     return u.sleepRepository.FindByID(sleepID)
 }
 
-func (u *SleepUseCase) GetAllSleeps() ([]domain.Sleep, error) {
-    return u.sleepRepository.FindAll()
+func (u *SleepUseCase) GetSleepsByUserID(userID int) ([]domain.Sleep, error) {
+    return u.sleepRepository.FindAll(userID)
 }
 
 func (u *SleepUseCase) GetSleepScore(userID int) (int, error) {

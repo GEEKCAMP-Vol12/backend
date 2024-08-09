@@ -13,10 +13,9 @@ import (
 type SleepHandler struct {
     sleepUseCase *usecase.SleepUseCase
 }
-
 func NewSleepHandler(r *gin.Engine, sleepUseCase *usecase.SleepUseCase) {
     handler := &SleepHandler{sleepUseCase: sleepUseCase}
-    r.GET("/sleeps", handler.GetSleeps)
+    r.GET("/sleeps/user/:id", handler.GetSleepsByUserID)
     r.GET("/sleeps/:id", handler.GetSleepByID)
     r.POST("/sleeps", handler.CreateSleep)
     r.PUT("/sleeps/:id", handler.UpdateSleep)
@@ -24,8 +23,14 @@ func NewSleepHandler(r *gin.Engine, sleepUseCase *usecase.SleepUseCase) {
     r.GET("/sleeps/user/:id/score", handler.GetSleepScore)
 }
 
-func (h *SleepHandler) GetSleeps(c *gin.Context) {
-    sleeps, err := h.sleepUseCase.GetAllSleeps()
+func (h *SleepHandler) GetSleepsByUserID(c *gin.Context) {
+    userID, err := strconv.Atoi(c.Param("id"))
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+        return
+    }
+
+    sleeps, err := h.sleepUseCase.GetSleepsByUserID(userID)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return

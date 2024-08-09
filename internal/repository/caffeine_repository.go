@@ -8,7 +8,7 @@ import (
 )
 
 type Caffeine struct {
-    ID        int 
+    ID        int `gorm:"primaryKey"`
     Score     int
     UserID    int
     CreatedAt time.Time
@@ -43,9 +43,9 @@ func (r *CaffeineRepository) FindByID(caffeineID int) (*domain.Caffeine, error) 
     return &caffeine, nil
 }
 
-func (r *CaffeineRepository) FindAll() ([]domain.Caffeine, error) {
+func (r *CaffeineRepository) FindAll(userID int) ([]domain.Caffeine, error) {
     var caffeines []domain.Caffeine
-    if err := r.db.Find(&caffeines).Error; err != nil {
+    if err := r.db.Where("user_id = ?", userID).Find(&caffeines).Error; err != nil {
         return nil, err
     }
     return caffeines, nil

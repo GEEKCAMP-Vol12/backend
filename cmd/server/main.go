@@ -21,7 +21,6 @@ func main() {
         panic("failed to connect database")
     }
 
-    // Migrate the schema
     db.AutoMigrate(&repository.User{}, &repository.Caffeine{}, &repository.Sleep{})
 
     r := gin.Default()
@@ -34,6 +33,7 @@ func main() {
     caffeineUseCase := usecase.NewCaffeineUseCase(caffeineRepo)
     sleepUseCase := usecase.NewSleepUseCase(sleepRepo)
 
+    
     http.NewUserHandler(r, userUseCase)
     http.NewCaffeineHandler(r, caffeineUseCase)
     http.NewSleepHandler(r, sleepUseCase)

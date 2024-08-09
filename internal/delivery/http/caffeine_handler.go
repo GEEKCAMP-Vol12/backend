@@ -16,7 +16,7 @@ type CaffeineHandler struct {
 
 func NewCaffeineHandler(r *gin.Engine, caffeineUseCase *usecase.CaffeineUseCase) {
     handler := &CaffeineHandler{caffeineUseCase: caffeineUseCase}
-    r.GET("/caffeines", handler.GetCaffeines)
+    r.GET("/caffeines/user/:id", handler.GetCaffeinesByUserID)
     r.GET("/caffeines/:id", handler.GetCaffeineByID)
     r.POST("/caffeines", handler.CreateCaffeine)
     r.PUT("/caffeines/:id", handler.UpdateCaffeine)
@@ -24,8 +24,14 @@ func NewCaffeineHandler(r *gin.Engine, caffeineUseCase *usecase.CaffeineUseCase)
     r.GET("/caffeines/user/:id/score", handler.GetCaffeineScore)
 }
 
-func (h *CaffeineHandler) GetCaffeines(c *gin.Context) {
-    caffeines, err := h.caffeineUseCase.GetAllCaffeines()
+func (h *CaffeineHandler) GetCaffeinesByUserID(c *gin.Context) {
+    userID, err := strconv.Atoi(c.Param("id"))
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+        return
+    }
+
+    caffeines, err := h.caffeineUseCase.GetCaffeinesByUserID(userID)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
