@@ -8,6 +8,6 @@ type User struct {
     Icon      string    `json:"icon"`
     Age       int       `json:"age"`      
     Gender    string    `json:"gender"`   
-    CreatedAt time.Time `time.Time:"true" json:"created_at"`
-    UpdatedAt time.Time `time.Time:"true" json:"updated_at"`
+    CreatedAt time.Time `json:"created_at"`
+    UpdatedAt time.Time `json:"updated_at"`
 }
