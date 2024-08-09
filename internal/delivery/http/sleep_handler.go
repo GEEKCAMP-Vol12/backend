@@ -116,4 +116,3 @@ func (h *SleepHandler) GetSleepScore(c *gin.Context) {
     }
     c.JSON(http.StatusOK, gin.H{"score": score})
 }
-
