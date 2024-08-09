@@ -33,7 +33,7 @@ func (h *CaffeineHandler) GetCaffeinesByUserID(c *gin.Context) {
         return
     }
 
-    caffeines, err := h.caffeineUseCase.GetCaffeinesByUserID(userID)
+    caffeines, err := h.caffeineUseCase.GetCaffeinesByUserID(strconv.Itoa(userID))
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
@@ -48,7 +48,7 @@ func (h *CaffeineHandler) GetCaffeineByID(c *gin.Context) {
         return
     }
 
-    caffeine, err := h.caffeineUseCase.GetCaffeineByID(id)
+    caffeine, err := h.caffeineUseCase.GetCaffeineByID(strconv.Itoa(id))
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
@@ -98,7 +98,7 @@ func (h *CaffeineHandler) DeleteCaffeine(c *gin.Context) {
         return
     }
 
-    if err := h.caffeineUseCase.DeleteCaffeine(id); err != nil {
+    if err := h.caffeineUseCase.DeleteCaffeine(strconv.Itoa(id)); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
@@ -112,7 +112,7 @@ func (h *CaffeineHandler) GetCaffeineScore(c *gin.Context) {
         return
     }
 
-    score, err := h.caffeineUseCase.GetCaffeineScore(userID)
+    score, err := h.caffeineUseCase.GetCaffeineScore(strconv.Itoa(userID))
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
@@ -126,7 +126,7 @@ func (h *CaffeineHandler) GetCaffeinesLast7Days(c *gin.Context) {
         return
     }
 
-    caffeines, err := h.caffeineUseCase.GetCaffeinesLast7Days(userID)
+    caffeines, err := h.caffeineUseCase.GetCaffeinesLast7Days(strconv.Itoa(userID))
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return

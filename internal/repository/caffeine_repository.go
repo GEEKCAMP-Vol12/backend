@@ -10,7 +10,7 @@ import (
 type Caffeine struct {
     ID        int `gorm:"primaryKey" autoIncrement:"true"`
     Score     int `json:"score"`
-    UserID    int `json:"user_id"`
+    UserID    string `json:"user_id"`
     CreatedAt time.Time `gorm:"autoCreateTime"`
     UpdatedAt time.Time `gorm:"autoUpdateTime"`
 }
@@ -31,11 +31,11 @@ func (r *CaffeineRepository) Update(caffeine *domain.Caffeine) error {
     return r.db.Save(caffeine).Error
 }
 
-func (r *CaffeineRepository) Delete(caffeineID int) error {
+func (r *CaffeineRepository) Delete(caffeineID string) error {
     return r.db.Delete(&domain.Caffeine{}, caffeineID).Error
 }
 
-func (r *CaffeineRepository) FindByID(caffeineID int) (*domain.Caffeine, error) {
+func (r *CaffeineRepository) FindByID(caffeineID string) (*domain.Caffeine, error) {
     var caffeine domain.Caffeine
     if err := r.db.First(&caffeine, caffeineID).Error; err != nil {
         return nil, err
@@ -43,7 +43,7 @@ func (r *CaffeineRepository) FindByID(caffeineID int) (*domain.Caffeine, error) 
     return &caffeine, nil
 }
 
-func (r *CaffeineRepository) FindAll(userID int) ([]domain.Caffeine, error) {
+func (r *CaffeineRepository) FindAll(userID string) ([]domain.Caffeine, error) {
     var caffeines []domain.Caffeine
     if err := r.db.Where("user_id = ?", userID).Find(&caffeines).Error; err != nil {
         return nil, err
@@ -51,14 +51,14 @@ func (r *CaffeineRepository) FindAll(userID int) ([]domain.Caffeine, error) {
     return caffeines, nil
 }
 
-func (r *CaffeineRepository) GetScore(userID int) (int, error) {
+func (r *CaffeineRepository) GetScore(userID string) (int, error) {
     var sum int
     if err := r.db.Model(&domain.Caffeine{}).Where("user_id = ?", userID).Select("sum(score)").Scan(&sum).Error; err != nil {
         return 0, err
     }
     return sum, nil
 }
-func (r *CaffeineRepository) FindLast7Days(userID int) ([]domain.Caffeine, error) {
+func (r *CaffeineRepository) FindLast7Days(userID string) ([]domain.Caffeine, error) {
     var caffeines []domain.Caffeine
     oneWeekAgo := time.Now().AddDate(0, 0, -7)
     if err := r.db.Where("user_id = ? AND created_at >= ?", userID, oneWeekAgo).Order("created_at desc").Find(&caffeines).Error; err != nil {

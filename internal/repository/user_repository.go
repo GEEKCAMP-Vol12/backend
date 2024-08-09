@@ -33,11 +33,11 @@ func (r *UserRepository) Update(user *domain.User) error {
     return r.db.Save(user).Error
 }
 
-func (r *UserRepository) Delete(userID int) error {
+func (r *UserRepository) Delete(userID string) error {
     return r.db.Delete(&domain.User{}, userID).Error
 }
 
-func (r *UserRepository) FindByID(userID int) (*domain.User, error) {
+func (r *UserRepository) FindByID(userID string) (*domain.User, error) {
     var user domain.User
     if err := r.db.First(&user, userID).Error; err != nil {
         return nil, err

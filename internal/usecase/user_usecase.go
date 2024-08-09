@@ -3,10 +3,10 @@ package usecase
 import "github.com/taku10101/internal/domain"
 
 type UserRepository interface {
-    Create(user *domain.User) error
-    Update(user *domain.User) error
-    Delete(userID int) error
-    FindByID(userID int) (*domain.User, error)
+    Create(user *domain.CreateUserRequest) error
+    Update(user *domain.UpdateUserRequest) error
+    Delete(userID string) error
+    FindByID(userID string) (*domain.User, error)
     FindAll() ([]domain.User, error)
 }
 
@@ -18,19 +18,19 @@ func NewUserUseCase(userRepository UserRepository) *UserUseCase {
     return &UserUseCase{userRepository: userRepository}
 }
 
-func (u *UserUseCase) CreateUser(user *domain.User) error {
+func (u *UserUseCase) CreateUser(user *domain.CreateUserRequest) error {
     return u.userRepository.Create(user)
 }
 
-func (u *UserUseCase) UpdateUser(user *domain.User) error {
+func (u *UserUseCase) UpdateUser(user *domain.UpdateUserRequest) error {
     return u.userRepository.Update(user)
 }
 
-func (u *UserUseCase) DeleteUser(userID int) error {
+func (u *UserUseCase) DeleteUser(userID string) error {
     return u.userRepository.Delete(userID)
 }
 
-func (u *UserUseCase) GetUserByID(userID int) (*domain.User, error) {
+func (u *UserUseCase) GetUserByID(userID string) (*domain.User, error) {
     return u.userRepository.FindByID(userID)
 }
 

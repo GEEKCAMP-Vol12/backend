@@ -32,7 +32,7 @@ func (h *SleepHandler) GetSleepsByUserID(c *gin.Context) {
         return
     }
 
-    sleeps, err := h.sleepUseCase.GetSleepsByUserID(userID)
+    sleeps, err := h.sleepUseCase.GetSleepsByUserID(strconv.Itoa(userID))
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
@@ -47,7 +47,7 @@ func (h *SleepHandler) GetSleepByID(c *gin.Context) {
         return
     }
 
-    sleep, err := h.sleepUseCase.GetSleepByID(id)
+    sleep, err := h.sleepUseCase.GetSleepByID(strconv.Itoa(id))
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
@@ -97,7 +97,7 @@ func (h *SleepHandler) DeleteSleep(c *gin.Context) {
         return
     }
 
-    if err := h.sleepUseCase.DeleteSleep(id); err != nil {
+    if err := h.sleepUseCase.DeleteSleep(strconv.Itoa(id)); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
@@ -111,7 +111,7 @@ func (h *SleepHandler) GetSleepScore(c *gin.Context) {
         return
     }
 
-    score, err := h.sleepUseCase.GetSleepScore(userID)
+    score, err := h.sleepUseCase.GetSleepScore(strconv.Itoa(userID))
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
@@ -125,7 +125,7 @@ func (h *SleepHandler) GetSleepsLast7Days(c *gin.Context) {
         return
     }
 
-    sleeps, err := h.sleepUseCase.GetSleepsLast7Days(userID)
+    sleeps, err := h.sleepUseCase.GetSleepsLast7Days(strconv.Itoa(userID))
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
