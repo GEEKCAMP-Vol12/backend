@@ -97,7 +97,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Caffeine"
+              $ref: "#/components/schemas/CreateCaffeineEntryRequest"
       responses:
         "201":
           description: Created caffeine entry
@@ -122,6 +122,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Caffeine"
+
     put:
       summary: Update a caffeine entry by ID
       parameters:
@@ -205,7 +206,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Sleep"
+              $ref: "#/components/schemas/CreateSleepEntryRequest"
       responses:
         "201":
           description: Created sleep entry
@@ -332,7 +333,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
           description: The caffeine entry ID
         score:
           type: integer
@@ -369,3 +370,36 @@ components:
           type: string
           format: date-time
           description: The last update timestamp
+
+    CreateUserRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The user ID
+        name:
+          type: string
+          description: The user's name
+        icon:
+          type: string
+          description: The user's icon URL
+
+    CreateCaffeineEntryRequest:
+      type: object
+      properties:
+        score:
+          type: integer
+          description: The caffeine score
+        user_id:
+          type: integer
+          description: The ID of the user this score belongs to
+
+    CreateSleepEntryRequest:
+      type: object
+      properties:
+        score:
+          type: integer
+          description: The sleep score
+        user_id:
+          type: integer
+          description: The ID of the user this score belongs to
