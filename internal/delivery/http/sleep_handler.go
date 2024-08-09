@@ -21,6 +21,8 @@ func NewSleepHandler(r *gin.Engine, sleepUseCase *usecase.SleepUseCase) {
     r.PUT("/sleeps/:id", handler.UpdateSleep)
     r.DELETE("/sleeps/:id", handler.DeleteSleep)
     r.GET("/sleeps/user/:id/score", handler.GetSleepScore)
+    r.GET("/sleeps/user/:id/last7days", handler.GetSleepsLast7Days)
+
 }
 
 func (h *SleepHandler) GetSleepsByUserID(c *gin.Context) {
@@ -115,4 +117,18 @@ func (h *SleepHandler) GetSleepScore(c *gin.Context) {
         return
     }
     c.JSON(http.StatusOK, gin.H{"score": score})
+}
+func (h *SleepHandler) GetSleepsLast7Days(c *gin.Context) {
+    userID, err := strconv.Atoi(c.Param("id"))
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+        return
+    }
+
+    sleeps, err := h.sleepUseCase.GetSleepsLast7Days(userID)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, sleeps)
 }

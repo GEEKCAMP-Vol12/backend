@@ -58,3 +58,11 @@ func (r *CaffeineRepository) GetScore(userID int) (int, error) {
     }
     return sum, nil
 }
+func (r *CaffeineRepository) FindLast7Days(userID int) ([]domain.Caffeine, error) {
+    var caffeines []domain.Caffeine
+    oneWeekAgo := time.Now().AddDate(0, 0, -7)
+    if err := r.db.Where("user_id = ? AND created_at >= ?", userID, oneWeekAgo).Order("created_at desc").Find(&caffeines).Error; err != nil {
+        return nil, err
+    }
+    return caffeines, nil
+}

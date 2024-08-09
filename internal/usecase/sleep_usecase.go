@@ -10,6 +10,7 @@ type SleepRepository interface {
     FindByID(sleepID int) (*domain.Sleep, error)
     FindAll(userID int) ([]domain.Sleep, error)
     GetScore(userID int) (int, error)
+    FindLast7Days(userID int) ([]domain.Sleep, error)
 }
 
 type SleepUseCase struct {
@@ -42,4 +43,7 @@ func (u *SleepUseCase) GetSleepsByUserID(userID int) ([]domain.Sleep, error) {
 
 func (u *SleepUseCase) GetSleepScore(userID int) (int, error) {
     return u.sleepRepository.GetScore(userID)
+}
+func (u *SleepUseCase) GetSleepsLast7Days(userID int) ([]domain.Sleep, error) {
+    return u.sleepRepository.FindLast7Days(userID)
 }
