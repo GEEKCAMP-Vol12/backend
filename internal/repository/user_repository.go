@@ -29,7 +29,7 @@ func (r *UserRepository) Create(user *domain.CreateUserRequest) error {
     return r.db.Create(user).Error
 }
 
-func (r *UserRepository) Update(user *domain.User) error {
+func (r *UserRepository) Update(user *domain.UpdateUserRequest) error {
     return r.db.Save(user).Error
 }
 
