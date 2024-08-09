@@ -1,0 +1,371 @@
+openapi: 3.0.0
+info:
+  title: vol12_server API
+  description: API documentation for vol12_server
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+paths:
+  /users:
+    get:
+      summary: Get all users
+      responses:
+        "200":
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: Created user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    put:
+      summary: Update a user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    delete:
+      summary: Delete a user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User deleted
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /caffeines:
+    post:
+      summary: Create a new caffeine entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Caffeine"
+      responses:
+        "201":
+          description: Created caffeine entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Caffeine"
+
+  /caffeines/{id}:
+    get:
+      summary: Get a caffeine entry by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single caffeine entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Caffeine"
+    put:
+      summary: Update a caffeine entry by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Caffeine"
+      responses:
+        "200":
+          description: Updated caffeine entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Caffeine"
+    delete:
+      summary: Delete a caffeine entry by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Caffeine entry deleted
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /caffeines/user/{id}:
+    get:
+      summary: Get all caffeine entries by user ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of caffeine entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Caffeine"
+
+  /caffeines/user/{id}/last7days:
+    get:
+      summary: Get last 7 days of caffeine entries by user ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of caffeine entries from the last 7 days
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Caffeine"
+
+  /sleeps:
+    post:
+      summary: Create a new sleep entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sleep"
+      responses:
+        "201":
+          description: Created sleep entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Sleep"
+
+  /sleeps/{id}:
+    get:
+      summary: Get a sleep entry by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single sleep entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Sleep"
+    put:
+      summary: Update a sleep entry by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sleep"
+      responses:
+        "200":
+          description: Updated sleep entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Sleep"
+    delete:
+      summary: Delete a sleep entry by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Sleep entry deleted
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /sleeps/user/{id}:
+    get:
+      summary: Get all sleep entries by user ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of sleep entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Sleep"
+
+  /sleeps/user/{id}/last7days:
+    get:
+      summary: Get last 7 days of sleep entries by user ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of sleep entries from the last 7 days
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Sleep"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The user ID
+        name:
+          type: string
+          description: The user's name
+        icon:
+          type: string
+          description: The user's icon URL
+        created_at:
+          type: string
+          format: date-time
+          description: The creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          description: The last update timestamp
+
+    Caffeine:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The caffeine entry ID
+        score:
+          type: integer
+          description: The caffeine score
+        user_id:
+          type: integer
+          description: The ID of the user this score belongs to
+        created_at:
+          type: string
+          format: date-time
+          description: The creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          description: The last update timestamp
+
+    Sleep:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The sleep entry ID
+        score:
+          type: integer
+          description: The sleep score
+        user_id:
+          type: integer
+          description: The ID of the user this score belongs to
+        created_at:
+          type: string
+          format: date-time
+          description: The creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          description: The last update timestamp
