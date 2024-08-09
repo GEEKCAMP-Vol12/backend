@@ -8,11 +8,11 @@ import (
 )
 
 type User struct {
-    ID        int    `gorm:"primaryKey"`
-    Name      string
-    Icon      string
-    Age       int
-    Gender    string 
+    ID        int    `gorm:"primaryKey json:"id"`
+    Name      string `json:"name"`
+    Icon      string `json:"icon"`
+    Age       int   `json:"age"`
+    Gender    string  `json gender`
     CreatedAt time.Time `gorm:"autoCreateTime"`
     UpdatedAt time.Time `gorm:"autoUpdateTime"`
 }
