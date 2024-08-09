@@ -1,49 +1,61 @@
 package usecase
 
-import "github.com/taku10101/internal/domain"
+import (
+	"github.com/taku10101/internal/domain"
+	"github.com/taku10101/internal/repository"
+)
 
-
-type SleepRepository interface {
-    Create(sleep *domain.Sleep) error
-    Update(sleep *domain.Sleep) error
+type SleepDomain interface {
+    Create(sleep *repository.Sleep) error
+    Update(sleep *repository.Sleep) error
     Delete(sleepID string) error
-    FindByID(sleepID string) (*domain.Sleep, error)
-    FindAll(userID string) ([]domain.Sleep, error)
+    FindByID(sleepID string) (*repository.Sleep, error)
+    FindAll(userID string) ([]repository.Sleep, error)
     GetScore(userID string) (int, error)
-    FindLast7Days(userID string) ([]domain.Sleep, error)
+    FindLast7Days(userID string) ([]repository.Sleep, error)
 }
 
 type SleepUseCase struct {
-    sleepRepository SleepRepository
+    sleepDomain SleepDomain
 }
 
-func NewSleepUseCase(sleepRepository SleepRepository) *SleepUseCase {
-    return &SleepUseCase{sleepRepository: sleepRepository}
+func NewSleepUseCase(sleepDomain SleepDomain) *SleepUseCase {
+    return &SleepUseCase{sleepDomain: sleepDomain}
 }
 
-func (u *SleepUseCase) CreateSleep(sleep *domain.Sleep) error {
-    return u.sleepRepository.Create(sleep)
+func (u *SleepUseCase) CreateSleep(sleep *domain.CreateSleepRequest) error {
+    dbSleep := &repository.Sleep{    
+        UserID: sleep.UserID,
+        Score: sleep.Score, // Score is now of type int
+    }
+    return u.sleepDomain.Create(dbSleep)
 }
 
-func (u *SleepUseCase) UpdateSleep(sleep *domain.Sleep) error {
-    return u.sleepRepository.Update(sleep)
+func (u *SleepUseCase) UpdateSleep(sleep *domain.UpdateSleepRequest) error {
+    dbSleep := &repository.Sleep{
+        ID: sleep.ID,
+        UserID: sleep.UserID,
+        Score: sleep.Score, // Score is now of type int
+    }
+    return u.sleepDomain.Update(dbSleep)
 }
 
 func (u *SleepUseCase) DeleteSleep(sleepID string) error {
-    return u.sleepRepository.Delete(sleepID)
+    return u.sleepDomain.Delete(sleepID)
 }
 
-func (u *SleepUseCase) GetSleepByID(sleepID string) (*domain.Sleep, error) {
-    return u.sleepRepository.FindByID(sleepID)
+func (u *SleepUseCase) GetSleepByID(sleepID string) (*repository.Sleep, error) {
+    return u.sleepDomain.FindByID(sleepID)
 }
 
-func (u *SleepUseCase) GetSleepsByUserID(userID string) ([]domain.Sleep, error) {
-    return u.sleepRepository.FindAll(userID)
+func (u *SleepUseCase) GetSleepsByUserID(userID string) ([]repository.Sleep, error) {
+    return u.sleepDomain.FindAll(userID)
 }
 
 func (u *SleepUseCase) GetSleepScore(userID string) (int, error) {
-    return u.sleepRepository.GetScore(userID)
+    return u.sleepDomain.GetScore(userID)
 }
-func (u *SleepUseCase) GetSleepsLast7Days(userID string) ([]domain.Sleep, error) {
-    return u.sleepRepository.FindLast7Days(userID)
+
+func (u *SleepUseCase) GetSleepsLast7Days(userID string) ([]repository.Sleep, error) {
+    return u.sleepDomain.FindLast7Days(userID)
 }

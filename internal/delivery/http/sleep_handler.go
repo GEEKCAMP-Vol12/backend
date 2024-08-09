@@ -56,7 +56,7 @@ func (h *SleepHandler) GetSleepByID(c *gin.Context) {
 }
 
 func (h *SleepHandler) CreateSleep(c *gin.Context) {
-    var sleep domain.Sleep
+    var sleep domain.CreateSleepRequest
     if err := c.ShouldBindJSON(&sleep); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
@@ -70,26 +70,28 @@ func (h *SleepHandler) CreateSleep(c *gin.Context) {
 }
 
 func (h *SleepHandler) UpdateSleep(c *gin.Context) {
+    var req domain.UpdateSleepRequest
     id, err := strconv.Atoi(c.Param("id"))
+
+
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid sleep ID"})
         return
     }
+    req.ID = strconv.Itoa(id)
 
-    var sleep domain.Sleep
-    if err := c.ShouldBindJSON(&sleep); err != nil {
+    if err := c.ShouldBindJSON(&req); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
 
-    sleep.ID = strconv.Itoa(id)
-    if err := h.sleepUseCase.UpdateSleep(&sleep); err != nil {
+    
+    if err := h.sleepUseCase.UpdateSleep(&req); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
-    c.JSON(http.StatusOK, sleep)
+    c.JSON(http.StatusOK, req)
 }
-
 func (h *SleepHandler) DeleteSleep(c *gin.Context) {
     id, err := strconv.Atoi(c.Param("id"))
     if err != nil {

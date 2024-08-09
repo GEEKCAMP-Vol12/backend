@@ -40,7 +40,7 @@ func (h *UserHandler) GetUserByID(c *gin.Context) {
     }
 
 
-    user, err := h.userUseCase.GetUserByID(id)
+    user, err := h.userUseCase.GetUserByID(strconv.Itoa(id))
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
@@ -76,7 +76,7 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
         return
     }
 
-    req.ID = strconv.Itoa(id)
+    req.ID =strconv.Itoa(id)
     if err := h.userUseCase.UpdateUser(&req); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
@@ -93,7 +93,8 @@ func (h *UserHandler) DeleteUser(c *gin.Context) {
         return
     }
 
-    if err := h.userUseCase.DeleteUser(id); err != nil {
+    
+    if err := h.userUseCase.DeleteUser(strconv.Itoa(id)); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }

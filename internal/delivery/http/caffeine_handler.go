@@ -57,7 +57,7 @@ func (h *CaffeineHandler) GetCaffeineByID(c *gin.Context) {
 }
 
 func (h *CaffeineHandler) CreateCaffeine(c *gin.Context) {
-    var caffeine domain.Caffeine
+    var caffeine domain.CreateCaffeineRequest
     if err := c.ShouldBindJSON(&caffeine); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
@@ -77,7 +77,7 @@ func (h *CaffeineHandler) UpdateCaffeine(c *gin.Context) {
         return
     }
 
-    var caffeine domain.Caffeine
+    var caffeine domain.UpdateCaffeineRequest
     if err := c.ShouldBindJSON(&caffeine); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
