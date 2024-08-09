@@ -82,7 +82,7 @@ func (h *SleepHandler) UpdateSleep(c *gin.Context) {
         return
     }
 
-    sleep.ID = id
+    sleep.ID = strconv.Itoa(id)
     if err := h.sleepUseCase.UpdateSleep(&sleep); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return

@@ -83,7 +83,7 @@ func (h *CaffeineHandler) UpdateCaffeine(c *gin.Context) {
         return
     }
 
-    caffeine.ID = id
+    caffeine.ID = strconv.Itoa(id)
     if err := h.caffeineUseCase.UpdateCaffeine(&caffeine); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
