@@ -8,7 +8,7 @@ import (
 )
 
 type Sleep struct {
-    ID        int `gorm:"primaryKey" autoIncrement:"true"`
+    ID        string `gorm:"primaryKey" uuid:"true"`
     Score     int `json:"score"`
     UserID    string `json:"user_id"`
     CreatedAt time.Time `gorm:"autoCreateTime"`
