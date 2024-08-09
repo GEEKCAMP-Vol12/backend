@@ -8,7 +8,7 @@ import (
 )
 
 type User struct {
-    ID        int    `gorm:"primaryKey json:"id"`
+    ID        string    `gorm:"primaryKey json:"id"`
     Name      string `json:"name"`
     Icon      string `json:"icon"`
     Age       int   `json:"age"`
@@ -25,7 +25,7 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
     return &UserRepository{db: db}
 }
 
-func (r *UserRepository) Create(user *domain.User) error {
+func (r *UserRepository) Create(user *domain.CreateUserRequest) error {
     return r.db.Create(user).Error
 }
 
