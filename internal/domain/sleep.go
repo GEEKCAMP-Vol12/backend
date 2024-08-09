@@ -10,3 +10,4 @@ type Sleep struct {
     UpdatedAt time.Time `time.Time:"true" json:"updated_at"`
 }
 
+
