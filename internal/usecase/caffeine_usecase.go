@@ -10,6 +10,7 @@ type CaffeineRepository interface {
     FindByID(caffeineID int) (*domain.Caffeine, error)
     FindAll(userID int) ([]domain.Caffeine, error)
     GetScore(userID int) (int, error)
+    FindLast7Days(userID int) ([]domain.Caffeine, error)
 }
 
 type CaffeineUseCase struct {
@@ -42,4 +43,8 @@ func (u *CaffeineUseCase) GetCaffeinesByUserID(userID int) ([]domain.Caffeine, e
 
 func (u *CaffeineUseCase) GetCaffeineScore(userID int) (int, error) {
     return u.caffeineRepository.GetScore(userID)
+}
+
+func (u *CaffeineUseCase) GetCaffeinesLast7Days(userID int) ([]domain.Caffeine, error) {
+    return u.caffeineRepository.FindLast7Days(userID)
 }

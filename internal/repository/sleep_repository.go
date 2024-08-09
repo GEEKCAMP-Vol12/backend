@@ -58,3 +58,11 @@ func (r *SleepRepository) GetScore(userID int) (int, error) {
     }
     return sum, nil
 }
+func (r *SleepRepository) FindLast7Days(userID int) ([]domain.Sleep, error) {
+    var sleeps []domain.Sleep
+    oneWeekAgo := time.Now().AddDate(0, 0, -7)
+    if err := r.db.Where("user_id = ? AND created_at >= ?", userID, oneWeekAgo).Order("created_at desc").Find(&sleeps).Error; err != nil {
+        return nil, err
+    }
+    return sleeps, nil
+}

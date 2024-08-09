@@ -22,6 +22,8 @@ func NewCaffeineHandler(r *gin.Engine, caffeineUseCase *usecase.CaffeineUseCase)
     r.PUT("/caffeines/:id", handler.UpdateCaffeine)
     r.DELETE("/caffeines/:id", handler.DeleteCaffeine)
     r.GET("/caffeines/user/:id/score", handler.GetCaffeineScore)
+    r.GET("/caffeines/user/:id/last7days", handler.GetCaffeinesLast7Days)
+
 }
 
 func (h *CaffeineHandler) GetCaffeinesByUserID(c *gin.Context) {
@@ -116,4 +118,18 @@ func (h *CaffeineHandler) GetCaffeineScore(c *gin.Context) {
         return
     }
     c.JSON(http.StatusOK, gin.H{"score": score})
+}
+func (h *CaffeineHandler) GetCaffeinesLast7Days(c *gin.Context) {
+    userID, err := strconv.Atoi(c.Param("id"))
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+        return
+    }
+
+    caffeines, err := h.caffeineUseCase.GetCaffeinesLast7Days(userID)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, caffeines)
 }
