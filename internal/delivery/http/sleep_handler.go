@@ -132,3 +132,4 @@ func (h *SleepHandler) GetSleepsLast7Days(c *gin.Context) {
     }
     c.JSON(http.StatusOK, sleeps)
 }
+
