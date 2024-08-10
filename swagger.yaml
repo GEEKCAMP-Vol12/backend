@@ -44,7 +44,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: A single user
@@ -59,7 +59,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -80,7 +80,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: User deleted
@@ -114,7 +114,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: A single caffeine entry
@@ -130,7 +130,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -151,7 +151,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: Caffeine entry deleted
@@ -168,7 +168,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: A list of caffeine entries
@@ -187,7 +187,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: A list of caffeine entries from the last 7 days
@@ -223,7 +223,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: A single sleep entry
@@ -238,7 +238,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -259,7 +259,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: Sleep entry deleted
@@ -276,7 +276,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: A list of sleep entries
@@ -295,7 +295,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: A list of sleep entries from the last 7 days
@@ -312,7 +312,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
           description: The user ID
         name:
           type: string
@@ -354,7 +354,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
           description: The sleep entry ID
         score:
           type: integer
