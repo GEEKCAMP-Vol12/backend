@@ -7,9 +7,9 @@ import (
 )
 
 type Caffeine struct {
-    ID        string `gorm:"primaryKey" uuid:"true"`
+    ID        string `gorm:"primaryKey" json:"id"`
     Score     int `json:"score"`
-    UserID    string `json:"user_id"`
+    UserID string `json:"user_id"`
     CreatedAt time.Time `gorm:"autoCreateTime"`
     UpdatedAt time.Time `gorm:"autoUpdateTime"`
 }

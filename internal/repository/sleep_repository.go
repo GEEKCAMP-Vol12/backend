@@ -8,12 +8,13 @@ import (
 )
 
 type Sleep struct {
-    ID        string `gorm:"primaryKey" uuid:"true"`
-    Score     int `json:"score"`
-    UserID    string `json:"user_id"`
+    ID        string    `gorm:"primaryKey"`
+    Score     int       `json:"score"`
+    UserID    string    `json:"user_id"`
     CreatedAt time.Time `gorm:"autoCreateTime"`
     UpdatedAt time.Time `gorm:"autoUpdateTime"`
 }
+
 
 type SleepRepository struct {
     db *gorm.DB
@@ -27,9 +28,7 @@ func (r *SleepRepository) Create(sleep *Sleep) error {
     if sleep.Score == 0 {
         return errors.New("score cannot be zero")
     }
-    if sleep.UserID == "" {
-        return errors.New("user_id cannot be empty")
-    }
+
     return r.db.Create(sleep).Error
 }
 
@@ -37,9 +36,7 @@ func (r *SleepRepository) Update(sleep *Sleep) error {
     if sleep.Score == 0 {
         return errors.New("score cannot be zero")
     }
-    if sleep.UserID == "" {
-        return errors.New("user_id cannot be empty")
-    }
+
     return r.db.Save(sleep).Error
 }
 
