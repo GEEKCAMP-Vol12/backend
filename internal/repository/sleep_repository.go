@@ -4,11 +4,12 @@ import (
 	"errors"
 	"time"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type Sleep struct {
-    ID        string    `gorm:"primaryKey"`
+    ID     uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4()"`
     Score     int       `json:"score"`
     UserID    string    `json:"user_id"`
     CreatedAt time.Time `gorm:"autoCreateTime"`
@@ -28,6 +29,9 @@ func NewSleepRepository(db *gorm.DB) *SleepRepository {
 func (r *SleepRepository) Create(sleep *Sleep) error {
     if sleep.Score == 0 {
         return errors.New("score cannot be zero")
+    }   
+     if sleep.ID == uuid.Nil {
+        sleep.ID = uuid.New()
     }
 
     err := r.db.Create(sleep).Error
