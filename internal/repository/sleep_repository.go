@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"time"
 
 	"gorm.io/gorm"
@@ -23,10 +24,22 @@ func NewSleepRepository(db *gorm.DB) *SleepRepository {
 }
 
 func (r *SleepRepository) Create(sleep *Sleep) error {
+    if sleep.Score == 0 {
+        return errors.New("score cannot be zero")
+    }
+    if sleep.UserID == "" {
+        return errors.New("user_id cannot be empty")
+    }
     return r.db.Create(sleep).Error
 }
 
 func (r *SleepRepository) Update(sleep *Sleep) error {
+    if sleep.Score == 0 {
+        return errors.New("score cannot be zero")
+    }
+    if sleep.UserID == "" {
+        return errors.New("user_id cannot be empty")
+    }
     return r.db.Save(sleep).Error
 }
 

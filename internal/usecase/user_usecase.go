@@ -24,6 +24,7 @@ func NewUserUseCase(userRepository UserRepository) *UserUseCase {
 
 func (u *UserUseCase) CreateUser(user *domain.CreateUserRequest) error {
     dbUser := &repository.User{
+        ID:     user.ID,
         Name:   user.Name,
         Icon:   user.Icon,
         Age:    user.Age,
