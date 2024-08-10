@@ -12,6 +12,7 @@ type Caffeine struct {
     UserID string `json:"user_id"`
     CreatedAt time.Time `gorm:"autoCreateTime"`
     UpdatedAt time.Time `gorm:"autoUpdateTime"`
+    User User 
 }
 
 type CaffeineRepository struct {

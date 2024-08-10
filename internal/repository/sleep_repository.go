@@ -13,6 +13,7 @@ type Sleep struct {
     UserID    string    `json:"user_id"`
     CreatedAt time.Time `gorm:"autoCreateTime"`
     UpdatedAt time.Time `gorm:"autoUpdateTime"`
+    User User 
 }
 
 
@@ -29,7 +30,14 @@ func (r *SleepRepository) Create(sleep *Sleep) error {
         return errors.New("score cannot be zero")
     }
 
-    return r.db.Create(sleep).Error
+    err := r.db.Create(sleep).Error
+    if err != nil {
+        if errors.Is(err, gorm.ErrDuplicatedKey) {
+            return errors.New("duplicate key value violates unique constraint")
+        }
+        return err
+    }
+    return nil
 }
 
 func (r *SleepRepository) Update(sleep *Sleep) error {
