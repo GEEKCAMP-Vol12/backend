@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"github.com/google/uuid"
 	"github.com/taku10101/internal/domain"
 	"github.com/taku10101/internal/repository"
 )
@@ -32,10 +33,11 @@ func (u *CaffeineUseCase) CreateCaffeine(caffeine *domain.CreateCaffeineRequest)
 }
 
 func (u *CaffeineUseCase) UpdateCaffeine(caffeine *domain.UpdateCaffeineRequest) error {
+    
     dbCaffeine := &repository.Caffeine{
-        ID: caffeine.ID,
+        ID:     uuid.Must(uuid.NewRandom()),
         UserID: caffeine.UserID,
-        Score: caffeine.Score,
+        Score:  caffeine.Score,
     }
     return u.caffeineRepository.Update(dbCaffeine)
 }

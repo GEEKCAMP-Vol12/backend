@@ -3,11 +3,12 @@ package repository
 import (
 	"time"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type Caffeine struct {
-    ID        string `gorm:"primaryKey" json:"id"`
+    ID     uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4()"`
     Score     int `json:"score"`
     UserID string `json:"user_id"`
     CreatedAt time.Time `gorm:"autoCreateTime"`
@@ -24,6 +25,10 @@ func NewCaffeineRepository(db *gorm.DB) *CaffeineRepository {
 }
 
 func (r *CaffeineRepository) Create(caffeine *Caffeine) error {
+    
+    if caffeine.ID == uuid.Nil {
+        caffeine.ID = uuid.New()
+    }
     return r.db.Create(caffeine).Error
 }
 
