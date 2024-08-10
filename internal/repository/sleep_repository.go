@@ -4,16 +4,19 @@ import (
 	"errors"
 	"time"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type Sleep struct {
-    ID        string `gorm:"primaryKey" uuid:"true"`
-    Score     int `json:"score"`
-    UserID    string `json:"user_id"`
+    ID     uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4()"`
+    Score     int       `json:"score"`
+    UserID    string    `json:"user_id"`
     CreatedAt time.Time `gorm:"autoCreateTime"`
     UpdatedAt time.Time `gorm:"autoUpdateTime"`
+    User User 
 }
+
 
 type SleepRepository struct {
     db *gorm.DB
@@ -26,20 +29,26 @@ func NewSleepRepository(db *gorm.DB) *SleepRepository {
 func (r *SleepRepository) Create(sleep *Sleep) error {
     if sleep.Score == 0 {
         return errors.New("score cannot be zero")
+    }   
+     if sleep.ID == uuid.Nil {
+        sleep.ID = uuid.New()
     }
-    if sleep.UserID == "" {
-        return errors.New("user_id cannot be empty")
+
+    err := r.db.Create(sleep).Error
+    if err != nil {
+        if errors.Is(err, gorm.ErrDuplicatedKey) {
+            return errors.New("duplicate key value violates unique constraint")
+        }
+        return err
     }
-    return r.db.Create(sleep).Error
+    return nil
 }
 
 func (r *SleepRepository) Update(sleep *Sleep) error {
     if sleep.Score == 0 {
         return errors.New("score cannot be zero")
     }
-    if sleep.UserID == "" {
-        return errors.New("user_id cannot be empty")
-    }
+
     return r.db.Save(sleep).Error
 }
 

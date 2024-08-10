@@ -8,6 +8,8 @@ type User struct {
     Age       int    `json:"age"`
     CreatedAt string `json:"created_at"`
     UpdatedAt string `json:"updated_at"`
+    Sleeps    []Sleep 
+    Caffeines []Caffeine
 }
 type CreateUserRequest struct {
     ID        string       `json:"id"`

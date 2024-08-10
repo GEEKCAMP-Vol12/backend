@@ -1,8 +1,10 @@
 package domain
 
+import "github.com/google/uuid"
+
 
 type Sleep struct {
-    ID        string `json:"id"`
+    ID        uuid.UUID `json:"id"`
     Score     int `json:"score"`
     UserID    string `json:"user_id"`
     CreatedAt string `json:"created_at"`

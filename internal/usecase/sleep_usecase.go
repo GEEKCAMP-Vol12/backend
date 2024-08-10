@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"github.com/google/uuid"
 	"github.com/taku10101/internal/domain"
 	"github.com/taku10101/internal/repository"
 )
@@ -26,16 +27,17 @@ func NewSleepUseCase(sleepDomain SleepDomain) *SleepUseCase {
 func (u *SleepUseCase) CreateSleep(sleep *domain.CreateSleepRequest) error {
     dbSleep := &repository.Sleep{    
         UserID: sleep.UserID,
-        Score: sleep.Score, // Score is now of type int
+        Score: sleep.Score,
     }
     return u.sleepDomain.Create(dbSleep)
 }
 
 func (u *SleepUseCase) UpdateSleep(sleep *domain.UpdateSleepRequest) error {
+    
     dbSleep := &repository.Sleep{
-        ID: sleep.ID,
+        ID:     uuid.Must(uuid.NewRandom()),
         UserID: sleep.UserID,
-        Score: sleep.Score, // Score is now of type int
+        Score:  sleep.Score, 
     }
     return u.sleepDomain.Update(dbSleep)
 }
