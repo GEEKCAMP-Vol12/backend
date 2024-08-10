@@ -39,6 +39,7 @@ func (u *UserUseCase) UpdateUser(user *domain.UpdateUserRequest) error {
         Name:   user.Name,
         Icon:   user.Icon,
         Age:    user.Age,
+        Gender: user.Gender,
     }
     return u.userRepository.Update(dbUser)
 }

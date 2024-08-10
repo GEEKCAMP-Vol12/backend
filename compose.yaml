@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:13
     environment:
-      POSTGRES_USER: postgres
+      POSTGRES_USER: pos
       POSTGRES_PASSWORD: password
       POSTGRES_DB: vol12_server
     ports:

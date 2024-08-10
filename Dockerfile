@@ -1,30 +1,40 @@
-# Start from the official Golang base image with Go 1.20
-FROM golang:1.20-alpine
+# Dockerfile
+# ビルドステージ
+FROM golang:1.16 AS builder
 
-# Install Git (required for go mod download)
-RUN apk add --no-cache git
-
-# Set the Current Working Directory inside the container
 WORKDIR /app
 
-# Copy go.mod and go.sum files
+# go.mod と go.sum ファイルをコピー
 COPY go.mod go.sum ./
 
-# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
+# 依存関係をダウンロード
 RUN go mod download
 
-# Copy the source from the current directory to the Working Directory inside the container
+# ソースコードをコピー
 COPY . .
 
-# Navigate to the directory containing main.go
+# 依存関係を整理
+RUN go mod tidy
+
+# main.go を含むディレクトリに移動
 WORKDIR /app/cmd/server
 
-# Build the Go app
-RUN go build -o /app/main .
+# アプリケーションをビルド
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app/main .
 
-# Expose port 8080 to the outside world
+# 実行ステージ
+FROM alpine:latest
+
+WORKDIR /app
+
+# ビルドステージからバイナリをコピー
+COPY --from=builder /app/main .
+
+# 環境変数 PORT を設定
+ENV PORT=8080
+
+# ポートを公開
 EXPOSE 8080
 
-# Command to run the executable
+# アプリケーションを起動
 CMD ["/app/main"]
-
